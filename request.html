@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de desbloqueo</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow mx-auto p-4" style="max-width:600px;">
+
+        <h2 class="text-center mb-4">Solicitud de desbloqueo de teléfono</h2>
+
+        <form action="payment.html">
+
+            <div class="mb-3">
+                <label class="form-label">Nombre completo</label>
+                <input type="text" class="form-control" placeholder="Ingresa tu nombre completo" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Número de teléfono</label>
+                <input type="tel" class="form-control" placeholder="Ingresa tu número de teléfono" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Marca del dispositivo</label>
+
+                <select class="form-select">
+                    <option>Selecciona un dispositivo</option>
+                    <option>iPhone</option>
+                    <option>Samsung</option>
+                    <option>Google Pixel</option>
+                    <option>Xiaomi</option>
+                    <option>Huawei</option>
+                </select>
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">IMEI o número de serie</label>
+                <input
+    type="text"
+    id="imei"
+    class="form-control"
+    placeholder="Ingresa el IMEI o número de serie" required>
+            </div>
+            <small id="imeiError" class="text-danger"></small>
+
+            <button class="btn btn-primary w-100">
+                Enviar solicitud
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="mb-3">
+    <label class="form-label">País</label>
+
+    <select class="form-select" id="country" required>
+        <option value="">Selecciona tu país</option>
+        <option value="mexico">México</option>
+        <option value="peru">Perú</option>
+        <option value="colombia">Colombia</option>
+        <option value="argentina">Argentina</option>
+    </select>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

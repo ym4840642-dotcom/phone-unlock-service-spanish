@@ -1,0 +1,51 @@
+body{
+    background:#f8f9fa;
+}
+
+.hero-image{
+    max-width:400px;
+}
+
+.card{
+
+    border:none;
+
+    border-radius:15px;
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+
+}
+
+.btn-primary{
+
+    border-radius:30px;
+
+    padding:12px 30px;
+
+}
+
+.btn-primary:hover{
+
+    transform:scale(1.05);
+
+    transition:.3s;
+
+}
+
+section{
+    padding-top:60px;
+    padding-bottom:60px;
+}
+
+img{
+    max-width:100%;
+    height:auto;
+}
